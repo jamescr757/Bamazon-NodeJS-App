@@ -105,9 +105,9 @@ function checkDatabaseQuantity(itemId, userAmount) {
                 console.log(chalk.yellow("\nInsufficient quantity. Please purchase less of that product\n"));
                 customerPurchaseQuestions();
             } else {
-                console.log(chalk.green("\nThanks for your business! Here's your receipt...\n"));
+                console.log("\nThanks for purchasing " + chalk.yellow(userAmount) + " " + response[0].product_name + "!" + " Here's your receipt...\n");
                 const totalPrice = (itemPrice * userAmount * tax).toFixed(2);
-                console.log("Total purchase price: " + chalk.green("$" + totalPrice));
+                console.log("Total: " + chalk.green("$" + totalPrice));
                 console.log("");
 
                 const newDatabaseQuantity = databaseQuantity - userAmount;
@@ -121,11 +121,26 @@ function checkDatabaseQuantity(itemId, userAmount) {
                         if (error) console.log(error);
                         
                         console.log("\nstore stock updated\n");
-                        customerPurchaseQuestions();
-                    }
-                    )
 
-                // process.exit();
+                        inquirer.prompt([{
+                            name: "keepShopping",
+                            message: "Do you want to continue shopping?",
+                            type: "confirm"
+                        }]).then(answer => {
+                            if (answer.keepShopping) {
+                                console.log(table.toString());
+                                customerPurchaseQuestions();  
+                            } else {
+                                connection.end();
+                                process.exit();
+                            }
+                        }).catch(error => {
+                            if (error) {
+                                console.log(error.message);
+                            }
+                        })
+                    }
+                    );
             }
         }
     );
