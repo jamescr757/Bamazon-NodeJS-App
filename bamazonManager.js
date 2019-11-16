@@ -20,6 +20,9 @@ const connection = mysql.createConnection({
 // global number of items for user validation
 let itemTotal = 0;
 
+// global department names array 
+const departmentNamesArray = [];
+
 // prompt manager with list of choices
 function managerQuestions() {
     inquirer.prompt([
@@ -50,7 +53,8 @@ function managerQuestions() {
 
             case "Add new product":
                 // function that inserts row into products
-                addNewProductQuestions();
+                // grab department names from departments table first
+                grabDepartmentNames(addNewProductQuestions);
                 break;
 
             default:
@@ -66,7 +70,7 @@ function createInventoryTable(response, fullInventoryBool) {
 
     const table = new Table({
         head: [chalk.green('Item ID'), chalk.green('Product Name'), chalk.green('Department Name'), chalk.green("Price"), chalk.green('Quantity'), chalk.green('Product Sales')]
-      , colWidths: [10, 30, 20, 10, 10, 15]
+      , colWidths: [10, 40, 20, 10, 10, 15]
     });
 
     itemTotal = response.length;
@@ -200,6 +204,26 @@ function updateStockQuestions() {
     })
 }
 
+// grab department_names data from departments table 
+// push into department names array
+// need to nest a function to keep flow order correct
+function grabDepartmentNames(nextFunction) {
+    connection.query(`
+    SELECT department_name 
+    FROM departments
+    `,
+    (error, response) => {
+        if (error) throw error;
+
+        response.forEach(element => {
+            departmentNamesArray.push(element.department_name);
+        });
+
+        nextFunction();
+    }
+    );
+}
+
 // add new product to store, add new row 
 // insert into products new row after prompting manager with questions
 // need function with questions with insert fxn nested
@@ -212,7 +236,7 @@ function addNewProductQuestions() {
         {
             message: "Product department:",
             type: "list",
-            choices: ["Office Supplies", "Apparel", "Electronics", "Movies", "Games"],
+            choices: departmentNamesArray,
             name: "deptName"
         },
         {
@@ -249,7 +273,9 @@ function addNewProduct(userInputObj) {
         
         console.log("\n Item " + chalk.yellow(userInputObj.productName) + " added to inventory.\n");
 
-        displayInventory(managerContinue);
+        // display new inventory table seems unnecessary if message displayed to manager above
+        // displayInventory(managerContinue);
+        managerContinue();
     })
 }
 

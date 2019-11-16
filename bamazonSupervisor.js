@@ -96,8 +96,13 @@ function createDepartmentSalesTable(response) {
     // department_id, department_name, overhead_costs, product_sales, total_profit
     // total_profit and product_sales not in response object, calculate by subtracting overhead_costs from product_sales
     for (let i = 0; i < response.length; i++) {
+        // if product sales is undefined because that department does not have any products
+        // happens when the supervisor creates a new dept but has not added any products to it 
+        if (!productSalesArray[i]) productSalesArray[i] = 0;
+        
         let total_profit = (productSalesArray[i] - response[i].overhead_costs).toFixed(2);
 
+        // if total profit negative alert supervisor by turning number to red
         if (total_profit < 0) total_profit = chalk.redBright(total_profit);
 
         table.push([response[i].department_id, response[i].department_name, response[i].overhead_costs, productSalesArray[i], total_profit]);
@@ -158,7 +163,8 @@ function addNewDepartment(userInputObj) {
         
         console.log("\n Department " + chalk.yellow(userInputObj.deptName) + " added to store.\n");
 
-        displayDepartmentSales(supervisorContinue);
+        // displayDepartmentSales(supervisorContinue);
+        supervisorContinue();
     })
 }
 

@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS products (
 
     department_name VARCHAR(50),
 
-    price DECIMAL(5, 2) NOT NULL,
+    price DECIMAL(6, 2) NOT NULL,
 
     stock_quantity INTEGER NOT NULL,
 
