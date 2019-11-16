@@ -253,7 +253,7 @@ function addNewProduct(userInputObj) {
     })
 }
 
-// function that allows manager to stay continue or exit program
+// function that allows manager to stay or exit program
 // prompt with a confirm, if yes, run managerQuestions()
 // else, terminate connection and process
 function managerContinue() {

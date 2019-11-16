@@ -13,7 +13,19 @@ CREATE TABLE IF NOT EXISTS products (
 
     price DECIMAL(5, 2) NOT NULL,
 
-    stock_quantity INTEGER NOT NULL
+    stock_quantity INTEGER NOT NULL,
+
+    product_sales DECIMAL(12, 2) NOT NULL DEFAULT 0
+
+);
+
+CREATE TABLE IF NOT EXISTS departments (
+    
+    department_id INTEGER NOT NULL KEY AUTO_INCREMENT,
+
+    department_name VARCHAR(50),
+
+    overhead_costs INTEGER NOT NULL
 
 );
 
@@ -28,3 +40,10 @@ VALUES ("Calculator", "Office Supplies", 29.99, 30),
  ("The Dark Knight DVD", "Movies", 12.99, 30),
  ("Monopoly", "Games", 24.99, 40),
  ("MotoGP 19 (PS4)", "Games", 34.99, 10);
+
+INSERT INTO departments (department_name, overhead_costs)
+VALUES ("Office Supplies", 3000),
+ ("Apparel", 5000),
+ ("Electronics", 4000),
+ ("Movies",  2000),
+ ("Games", 2000);
