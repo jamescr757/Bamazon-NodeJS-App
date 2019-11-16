@@ -20,6 +20,9 @@ const connection = mysql.createConnection({
 // global number of departments for user validation
 let departmentTotal = 0;
 
+// global product sales array 
+const productSalesArray = [];
+
 // prompt supervisor with list of choices
 function supervisorQuestions() {
     inquirer.prompt([
@@ -52,27 +55,55 @@ function supervisorQuestions() {
     })
 }
 
+// grab product_sales data from products table group by department_name
+// push into product sales array (need array length to equal departmentTotal)
+// need to nest a function to keep flow order correct
+function grabProductSales(departmentsResponse, nextFunction) {
+    connection.query(`
+    SELECT department_name, SUM(product_sales) 
+    FROM products
+    GROUP BY department_name
+    `,
+    (error, response) => {
+        if (error) throw error;
+
+        departmentTotal = response.length;
+
+        response.forEach(element => {
+            productSalesArray.push(element["SUM(product_sales)"])
+        });
+
+        // console.log(response);
+        // console.log("global product sales array", productSalesArray);
+
+        createDepartmentSalesTable(departmentsResponse);
+        nextFunction();
+    }
+    );
+}
+
 function createDepartmentSalesTable(response) {
 
     const table = new Table({
         head: [chalk.green('Department ID'), chalk.green('Department Name'), chalk.green('Overhead Costs'), chalk.green("Product Sales"), chalk.green('Total Profit')]
-      , colWidths: [15, 30, 20, 20, 20]
+      , colWidths: [15, 25, 20, 20, 20]
     });
 
     departmentTotal = response.length;
-    
-    // TODO: converting product sales data from products table and displaying it
 
     // response is an array of objects
     // for each element need to display keys relevant to supervisor
     // department_id, department_name, overhead_costs, product_sales, total_profit
     // total_profit and product_sales not in response object, calculate by subtracting overhead_costs from product_sales
-    response.forEach(element => {
-        const total_profit = product_sales - element.overhead_costs;
-        table.push([element.department_id, element.department_name, element.overhead_costs, product_sales, total_profit]);
-    });
+    for (let i = 0; i < response.length; i++) {
+        let total_profit = (productSalesArray[i] - response[i].overhead_costs).toFixed(2);
+
+        if (total_profit < 0) total_profit = chalk.redBright(total_profit);
+
+        table.push([response[i].department_id, response[i].department_name, response[i].overhead_costs, productSalesArray[i], total_profit]);
+    }
     
-    return table;
+    console.log(table.toString());
 }
 
 // function to select and display from departments
@@ -83,11 +114,7 @@ function displayDepartmentSales(nextFunction) {
         (error, response) => {
             if (error) throw error;
 
-            // create new table each time because row values will change
-            let table = createDepartmentSalesTable(response);
-
-            console.log(table.toString());
-            nextFunction();
+            grabProductSales(response, nextFunction);
         }
     );
 }
@@ -163,4 +190,7 @@ function supervisorContinue() {
 connection.connect(error => {
     if (error) throw error;
     supervisorQuestions();
+    // grabProductSales();
+    // connection.end();
+    // process.exit();
 });
