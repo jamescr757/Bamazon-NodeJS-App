@@ -65,8 +65,8 @@ function managerQuestions() {
 function createInventoryTable(response, fullInventoryBool) {
 
     const table = new Table({
-        head: [chalk.green('Item ID'), chalk.green('Product Name'), chalk.green('Department Name'), chalk.green("Price"), chalk.green('Quantity')]
-      , colWidths: [10, 30, 20, 10, 10]
+        head: [chalk.green('Item ID'), chalk.green('Product Name'), chalk.green('Department Name'), chalk.green("Price"), chalk.green('Quantity'), chalk.green('Product Sales')]
+      , colWidths: [10, 30, 20, 10, 10, 15]
     });
 
     itemTotal = response.length;
@@ -78,14 +78,14 @@ function createInventoryTable(response, fullInventoryBool) {
     if (fullInventoryBool) {
         response.forEach(element => {
             if (element.stock_quantity <= 5) {
-                table.push([element.item_id, chalk.redBright(element.product_name), element.department_name, element.price, chalk.redBright(element.stock_quantity)]);
+                table.push([element.item_id, chalk.redBright(element.product_name), element.department_name, element.price, chalk.redBright(element.stock_quantity), element.product_sales]);
             } else {
-                table.push([element.item_id, element.product_name, element.department_name, element.price, element.stock_quantity]);
+                table.push([element.item_id, element.product_name, element.department_name, element.price, element.stock_quantity, element.product_sales]);
             }
         });
     } else {
         response.forEach(element => {
-            table.push([element.item_id, element.product_name, element.department_name, element.price, element.stock_quantity]);
+            table.push([element.item_id, element.product_name, element.department_name, element.price, element.stock_quantity, element.product_sales]);
         });
     }
 
@@ -160,7 +160,7 @@ function grabCurrentQuantity(itemId, amountToAdd) {
             if (error) console.log(error);
             
             const currentStock = response[0].stock_quantity;
-            const newStock = currentStock + parseInt(amountToAdd);
+            const newStock = currentStock + amountToAdd;
             
             updateStock(itemId, newStock);
         }
@@ -190,7 +190,7 @@ function updateStockQuestions() {
             console.log(chalk.yellow("\nPlease input valid item number\n"));
             updateStockQuestions();
         } else {
-            grabCurrentQuantity(answer.userId, answer.userAdd);
+            grabCurrentQuantity(answer.userId, parseInt(answer.userAdd));
         }
 
         

@@ -109,7 +109,9 @@ function checkDatabaseQuantity(itemId, userAmount) {
             if (error) throw error;
 
             const databaseQuantity = response[0].stock_quantity;
+            const databaseProductSales = response[0].product_sales;
             const itemPrice = response[0].price;
+            console.log("data type of database product sales returned value", typeof databaseProductSales);
 
             if (userAmount > databaseQuantity) {
                 console.log(chalk.yellow("\nInsufficient quantity. Please purchase less of that product\n"));
@@ -117,20 +119,24 @@ function checkDatabaseQuantity(itemId, userAmount) {
             } else {
                 console.log("\nThanks for purchasing " + chalk.yellow(userAmount) + " " + response[0].product_name + "!" + " Here's your receipt...\n");
                 const totalPrice = (itemPrice * userAmount * tax).toFixed(2);
+                const addToProductSales = parseFloat((itemPrice * userAmount).toFixed(2));
                 console.log("Total: " + chalk.green("$" + totalPrice));
                 console.log("");
-
+                
                 const newDatabaseQuantity = databaseQuantity - userAmount;
-                const query = connection.query(
-                    "UPDATE products SET stock_quantity = ? WHERE item_id = ?",
+                const newDatabaseProductSales = databaseProductSales + addToProductSales;
+                connection.query(`
+                    UPDATE products 
+                    SET stock_quantity = ?, product_sales = ? 
+                    WHERE item_id = ?
+                    `,
                     [
                         newDatabaseQuantity,
+                        newDatabaseProductSales,
                         itemId   
                     ],
                     function(error, response) {
                         if (error) console.log(error);
-                        
-                        console.log("\nstore stock updated\n");
 
                         inquirer.prompt([{
                             name: "keepShopping",

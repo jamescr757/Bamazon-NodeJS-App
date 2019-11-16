@@ -60,14 +60,16 @@ function createDepartmentSalesTable(response) {
     });
 
     departmentTotal = response.length;
+    
+    // TODO: converting product sales data from products table and displaying it
 
     // response is an array of objects
     // for each element need to display keys relevant to supervisor
     // department_id, department_name, overhead_costs, product_sales, total_profit
-    // total_profit not in response object, calculate by subtracting overhead_costs from product_sales
+    // total_profit and product_sales not in response object, calculate by subtracting overhead_costs from product_sales
     response.forEach(element => {
-        const total_profit = element.product_sales - element.overhead_costs;
-        table.push([element.department_id, element.department_name, element.overhead_costs, element.product_sales, total_profit]);
+        const total_profit = product_sales - element.overhead_costs;
+        table.push([element.department_id, element.department_name, element.overhead_costs, product_sales, total_profit]);
     });
     
     return table;
