@@ -22,9 +22,9 @@ function managerQuestions() {
     inquirer.prompt([
         {
             name: "managerAction",
-            message: "Hello Manager. What would you like to do?",
+            message: "What action do you want to perform?",
             type: "list",
-            choices: ["View products for sale", "View low inventory", "Add to inventory", "Add new product"]
+            choices: ["View products for sale", "View low inventory", "Add to inventory", "Add new product", "Exit"]
         }
     ])
     .then(answer => {
@@ -49,6 +49,9 @@ function managerQuestions() {
                 break;
 
             default:
+                // manager chose to exit the program
+                connection.end();
+                process.exit();
                 break;
         }
     })
@@ -94,8 +97,7 @@ function displayInventory() {
             let table = createInventoryTable(response, true);
 
             console.log(table.toString());
-            process.exit();
-            connection.end();
+            managerContinue();
         }
     );
 }
@@ -116,15 +118,37 @@ function displayLowInventory() {
     
                 console.log(table.toString());
             }
-
-            process.exit();
-            connection.end();
+            managerContinue();
         }
     );
 }
 
+// function that allows manager to stay continue or exit program
+// prompt with a confirm, if yes, run managerQuestions()
+// else, terminate connection and process
+function managerContinue() {
+    inquirer.prompt([
+        {
+            name: "stayOn",
+            message: "Do you want to continue managing inventory?",
+            type: "confirm"
+        }
+    ])
+    .then(answer => {
+        if (answer.stayOn) {
+            managerQuestions();
+        } else {
+            connection.end();
+            process.exit();
+        }
+    }).catch(error => {
+        if (error) {
+            console.log(error.message);
+        }
+    });
+}
+
 connection.connect(error => {
     if (error) throw error;
-
     managerQuestions();
 });
