@@ -17,6 +17,9 @@ const connection = mysql.createConnection({
     database: "bamazon"
 });
 
+// global number of items for user validation
+let itemTotal = 0;
+
 // prompt manager with list of choices
 function managerQuestions() {
     inquirer.prompt([
@@ -32,7 +35,7 @@ function managerQuestions() {
         switch (answer.managerAction) {
             case "View products for sale":
                 // function to select and display from products
-                displayInventory();
+                displayInventory(managerContinue);
                 break;
 
             case "View low inventory":
@@ -42,6 +45,7 @@ function managerQuestions() {
 
             case "Add to inventory":
                 // function that updates values in products
+                displayInventory(updateStockQuestions)
                 break;
 
             case "Add new product":
@@ -63,6 +67,8 @@ function createInventoryTable(response, fullInventoryBool) {
         head: [chalk.green('Item ID'), chalk.green('Product Name'), chalk.green('Department Name'), chalk.green("Price"), chalk.green('Quantity')]
       , colWidths: [10, 30, 20, 10, 10]
     });
+
+    itemTotal = response.length;
 
     // response is an array of objects
     // for each element need to display keys relevant to manager
@@ -87,7 +93,7 @@ function createInventoryTable(response, fullInventoryBool) {
 
 // function to select and display from products
 // create new instance of Table to display information
-function displayInventory() {
+function displayInventory(nextFunction) {
     connection.query(
         "SELECT * FROM products",
         (error, response) => {
@@ -97,7 +103,7 @@ function displayInventory() {
             let table = createInventoryTable(response, true);
 
             console.log(table.toString());
-            managerContinue();
+            nextFunction();
         }
     );
 }
@@ -121,6 +127,76 @@ function displayLowInventory() {
             managerContinue();
         }
     );
+}
+
+// function to update stock quantity in products
+function updateStock(itemId, quantity) {
+    connection.query(
+        "UPDATE products SET stock_quantity = ? WHERE item_id = ?",
+        [
+            quantity,
+            itemId   
+        ],
+        function(error, response) {
+            if (error) console.log(error);
+            
+            console.log("\n Item " + chalk.yellow("#" + itemId) + " quantity changed to " + chalk.yellow(quantity) + "\n");
+            
+            managerContinue();
+        }
+    );
+}
+
+// grab current stock quantity from products
+// need item id as an argument
+function grabCurrentQuantity(itemId, amountToAdd) {
+    connection.query(
+        "SELECT stock_quantity FROM products WHERE item_id = ?",
+        [
+            itemId   
+        ],
+        function(error, response) {
+            if (error) console.log(error);
+            
+            const currentStock = response[0].stock_quantity;
+            const newStock = currentStock + parseInt(amountToAdd);
+            
+            updateStock(itemId, newStock);
+        }
+    );
+}
+
+function updateStockQuestions() {
+    inquirer.prompt([
+        {
+            name: "userId",
+            message: "Add units to which item (please input item ID #)",
+        }, 
+
+        {
+            name: "userAdd",
+            message: "Number to add"
+        }
+    ])
+    .then(answer => {
+        // need to validate user input
+        // if input NaN for either question need to ask them again
+        // if id number greater than total number of items in store, ask again
+        if (!parseInt(answer.userId) || !parseInt(answer.userAdd)) {
+            console.log(chalk.yellow("\nPlease input a number\n"));
+            updateStockQuestions();
+        } else if (answer.userId > itemTotal) {
+            console.log(chalk.yellow("\nPlease input valid item number\n"));
+            updateStockQuestions();
+        } else {
+            grabCurrentQuantity(answer.userId, answer.userAdd);
+        }
+
+        
+    })
+    .catch(error => {
+        console.log(error);
+    })
 }
 
 // function that allows manager to stay continue or exit program

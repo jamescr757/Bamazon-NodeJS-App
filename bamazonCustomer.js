@@ -14,6 +14,9 @@ const table = new Table({
 // global tax variable 
 const tax = 1.0825;
 
+// global number of items for user validation
+let itemTotal = 0;
+
 // connect to database bamazon
 // create a connection 
 const connection = mysql.createConnection({
@@ -39,6 +42,8 @@ function renderTableAndQuestions() {
         "SELECT * FROM products",
         (error, response) => {
             if (error) throw error;
+
+            itemTotal = response.length;
 
             // response is an array of objects
             // for each element need to display keys relevant to customer
@@ -71,11 +76,16 @@ function customerPurchaseQuestions() {
     .then(answer => {
         // need to validate user input
         // if input NaN for either question need to ask them again
+        // if id number greater than total number of items in store, ask again
         if (!parseInt(answer.userId) || !parseInt(answer.userQuantity)) {
             console.log(chalk.yellow("\nPlease input a number\n"));
             customerPurchaseQuestions();
+        } else if (answer.userId > itemTotal) {
+            console.log(chalk.yellow("\nPlease input valid item number\n"));
+            customerPurchaseQuestions();
         }
 
+        // TODO: invalid item number is caught but still runs rest of process
         // need to first check database quantity of item customer wants to buy 
         checkDatabaseQuantity(answer.userId, answer.userQuantity);
         
