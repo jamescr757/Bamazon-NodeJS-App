@@ -50,6 +50,7 @@ function managerQuestions() {
 
             case "Add new product":
                 // function that inserts row into products
+                addNewProductQuestions();
                 break;
 
             default:
@@ -196,6 +197,59 @@ function updateStockQuestions() {
     })
     .catch(error => {
         console.log(error);
+    })
+}
+
+// add new product to store, add new row 
+// insert into products new row after prompting manager with questions
+// need function with questions with insert fxn nested
+function addNewProductQuestions() {
+    inquirer.prompt([
+        {
+            message: "Product name:",
+            name: "productName",
+        },
+        {
+            message: "Product department:",
+            type: "list",
+            choices: ["Office Supplies", "Apparel", "Electronics", "Movies", "Games"],
+            name: "deptName"
+        },
+        {
+            message: "Product price:",
+            name: "userPrice"
+        },
+        {
+            message: "Product quantity:",
+            name: "userQuantity",
+        }
+    ])
+    .then(answer => {
+        // need to validate price and quantity
+        // TODO: validate manager inputs 
+        // if all inputs good, run addNewProduct function
+        addNewProduct(answer);
+    })
+    .catch(error => {
+        if (error) {
+            console.log(error.message);
+        }
+    })
+}
+
+// add row to table products 
+// nest managerContinue at end or show them new inventory table?
+function addNewProduct(userInputObj) {
+    connection.query(`
+    INSERT INTO products (product_name, department_name, price, stock_quantity)
+    VALUES ("${userInputObj.productName}", "${userInputObj.deptName}", ${userInputObj.userPrice}, ${userInputObj.userQuantity})
+    `,
+    function(error, response) {
+        if (error) console.log(error);
+        
+        console.log("\n Item " + chalk.yellow(userInputObj.productName) + " added to inventory.\n");
+
+        displayInventory(managerContinue);
     })
 }
 
