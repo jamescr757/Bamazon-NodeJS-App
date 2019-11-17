@@ -52,6 +52,12 @@ function supervisorQuestions() {
     })
 }
 
+// function that alerts the user and asks them questions again 
+function userMessageAndQuestions(message, nextFunction) {
+    console.log(`\n${(message)}\n`);
+    nextFunction();
+}
+
 // grab product_sales data from products table group by department_name
 // push into global product sales array
 // need to nest a function to keep flow order correct
@@ -68,16 +74,12 @@ function grabProductSales(departmentsResponse, nextFunction) {
             productSalesArray.push(element["SUM(product_sales)"])
         });
 
-        // console.log(response);
-        // console.log("global product sales array", productSalesArray);
-
-        createDepartmentSalesTable(departmentsResponse);
-        nextFunction();
+        createDepartmentSalesTable(departmentsResponse, nextFunction);
     }
     );
 }
 
-function createDepartmentSalesTable(response) {
+function createDepartmentSalesTable(response, nextFunction) {
 
     const table = new Table({
         head: [chalk.green('Department ID'), chalk.green('Department Name'), chalk.green('Overhead Costs'), chalk.green("Product Sales"), chalk.green('Total Profit')]
@@ -101,7 +103,7 @@ function createDepartmentSalesTable(response) {
         table.push([response[i].department_id, response[i].department_name, response[i].overhead_costs, productSalesArray[i], total_profit]);
     }
     
-    console.log(table.toString());
+    userMessageAndQuestions(table.toString(), nextFunction);
 }
 
 // function to select and display from departments
@@ -133,9 +135,11 @@ function addNewDepartmentQuestions() {
     ])
     .then(answer => {
         // need to validate cost
-        // TODO: validate supervisor inputs 
         // if all inputs good, run addNewDepartment function
-        addNewDepartment(answer);
+        if (answer.deptName && answer.overheadCost) addNewDepartment(answer);
+
+        else addNewDepartmentQuestions();
+
     })
     .catch(error => {
         if (error) {
@@ -154,10 +158,7 @@ function addNewDepartment(userInputObj) {
     function(error, response) {
         if (error) console.log(error);
         
-        console.log("\n Department " + chalk.yellow(userInputObj.deptName) + " added to store.\n");
-
-        // displayDepartmentSales(supervisorContinue);
-        supervisorContinue();
+        userMessageAndQuestions("Department " + chalk.yellow(userInputObj.deptName) + " added to store.", supervisorContinue)
     })
 }
 
@@ -189,7 +190,4 @@ function supervisorContinue() {
 connection.connect(error => {
     if (error) throw error;
     supervisorQuestions();
-    // grabProductSales();
-    // connection.end();
-    // process.exit();
 });

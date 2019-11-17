@@ -11,11 +11,13 @@ const table = new Table({
   , colWidths: [10, 30, 10]
 });
 
-// global tax variable 
-const tax = 1.0825;
 
 // global number of items for user validation
 let itemTotal = 0;
+
+// global user purchase array
+const userPurchases = [];
+const userTotals = [];
 
 // connect to database bamazon
 // create a connection 
@@ -50,15 +52,16 @@ function renderTableAndQuestions() {
             response.forEach(element => {
                 table.push([element.item_id, element.product_name, element.price]);
             });
-            userMessageAndQuestions(table.toString())
+
+            userMessageAndQuestions(table.toString(), customerPurchaseQuestions);
         }
     )
 }
 
 // function that alerts the user and asks them questions again 
-function userMessageAndQuestions(message) {
+function userMessageAndQuestions(message, nextFunction) {
     console.log(`\n${(message)}\n`);
-    customerPurchaseQuestions();
+    nextFunction();
 }
 
 // ask customer two questions at load 
@@ -81,9 +84,9 @@ function customerPurchaseQuestions() {
         // if input NaN for either question need to ask them again
         // if id number greater than total number of items in store, ask again
         if (!parseInt(answer.userId) || !parseInt(answer.userQuantity)) {
-            userMessageAndQuestions(chalk.yellow("Please input a number"));
+            userMessageAndQuestions(chalk.yellow("Please input a number"), customerPurchaseQuestions);
         } else if (answer.userId > itemTotal) {
-            userMessageAndQuestions(chalk.yellow("Please input valid item number"));
+            userMessageAndQuestions(chalk.yellow("Please input valid item number"), customerPurchaseQuestions);
         } else {
             // check database quantity to see if user can purchase desired amount
             checkDatabaseQuantity(answer.userId, answer.userQuantity);
@@ -108,55 +111,117 @@ function checkDatabaseQuantity(itemId, userAmount) {
         function(error, response) {
             if (error) throw error;
 
-            const databaseQuantity = response[0].stock_quantity;
-            const databaseProductSales = response[0].product_sales;
-            const itemPrice = response[0].price;
+            // if database quantity is 0 or less than user purchase, alert and ask question
+            // else, let purchase go through and update database
+            if (response[0].stock_quantity === 0) {
+                userMessageAndQuestions(chalk.yellow(`Sorry, ${response[0].product_name} is out of stock.`), keepShoppingQuestion);
 
-            if (userAmount > databaseQuantity) {
-                userMessageAndQuestions(chalk.yellow("Insufficient quantity. Please purchase less of that product"));
+            } else if (userAmount > response[0].stock_quantity) {
+                userMessageAndQuestions(`Sorry, we only have ${chalk.yellow(response[0].stock_quantity)} units in stock. Please purchase less of ${chalk.yellow(response[0].product_name)}.`, customerPurchaseQuestions);
+
             } else {
-                console.log("\nThanks for purchasing " + chalk.yellow(userAmount) + " " + response[0].product_name + "!" + " Here's your receipt...\n");
-                const totalPrice = (itemPrice * userAmount * tax).toFixed(2);
-                const addToProductSales = parseFloat((itemPrice * userAmount).toFixed(2));
-                console.log("Total: " + chalk.green("$" + totalPrice));
-                console.log("");
-                
-                const newDatabaseQuantity = databaseQuantity - userAmount;
-                const newDatabaseProductSales = databaseProductSales + addToProductSales;
-                connection.query(`
-                    UPDATE products 
-                    SET stock_quantity = ?, product_sales = ? 
-                    WHERE item_id = ?
-                    `,
-                    [
-                        newDatabaseQuantity,
-                        newDatabaseProductSales,
-                        itemId   
-                    ],
-                    function(error, response) {
-                        if (error) console.log(error);
+                // push user purchase object into userPurchases array for receipt later
+                userPurchases.push({
+                    productName: response[0].product_name,
+                    price: response[0].price,
+                    amount: userAmount,
+                });
 
-                        inquirer.prompt([{
-                            name: "keepShopping",
-                            message: "Do you want to continue shopping?",
-                            type: "confirm"
-                        }]).then(answer => {
-                            if (answer.keepShopping) {
-                                // console.log(table.toString());
-                                // customerPurchaseQuestions();  
-                                userMessageAndQuestions(table.toString());
-                            } else {
-                                connection.end();
-                                process.exit();
-                            }
-                        }).catch(error => {
-                            if (error) {
-                                console.log(error.message);
-                            }
-                        })
-                    }
-                    );
+                userTotals.push(userAmount * response[0].price);
+
+                userMessageAndQuestions("Thanks for purchasing " + chalk.yellow(userAmount) + " " + response[0].product_name + "!", keepShoppingQuestion);
+
+                updateDatabase(response[0], userAmount);
             }
         }
     );
+}
+
+// update database if user purchase goes through
+// need current database quantity and user amount 
+function updateDatabase(databaseInfoObj, userAmount) {
+    
+    const newQuantity = databaseInfoObj.stock_quantity - userAmount;
+
+    const addToProductSales = parseFloat((databaseInfoObj.price * userAmount).toFixed(2));
+    const newProductSales = databaseInfoObj.product_sales + addToProductSales;
+
+    connection.query(`
+        UPDATE products 
+        SET stock_quantity = ?, product_sales = ? 
+        WHERE item_id = ?
+        `,
+        [
+            newQuantity,
+            newProductSales,
+            databaseInfoObj.item_id   
+        ],
+        function(error) {
+            if (error) console.log(error);
+        }
+    );
+}
+
+// ask user if they want to keep shopping
+// if not, terminate connection and process and show receipt 
+// otherwise, loop to starter questions
+function keepShoppingQuestion() {
+
+    inquirer.prompt([{
+        name: "keepShopping",
+        message: "Do you want to continue shopping?",
+        type: "confirm"
+    }])
+    .then(answer => {
+        if (answer.keepShopping) {
+            userMessageAndQuestions(table.toString(), customerPurchaseQuestions);
+        
+        } else {
+            console.log(chalk.cyan("\n\nThanks for shopping with us! Here's your receipt...\n\n"));
+
+            setTimeout(showUserReceipt, 0.8 * 1000);
+        }
+    })
+    .catch(error => {
+        if (error) {
+            console.log(error);
+        }
+    })
+}
+
+// display receipt to user with the info in userPurchases array
+// display product name, how many purchased, subtotal price
+// and then at end, show subtotal, tax and total 
+// and then thank them 
+function showUserReceipt() {
+
+    // empty table to keep info aligned
+    const receiptTable = new Table({
+        chars: { 'top': '' , 'top-mid': '' , 'top-left': '' , 'top-right': ''
+        , 'bottom': '' , 'bottom-mid': '' , 'bottom-left': '' , 'bottom-right': ''
+        , 'left': '' , 'left-mid': '' , 'mid': '' , 'mid-mid': ''
+        , 'right': '' , 'right-mid': '' , 'middle': '' },
+        colWidths: [25, 15, 15]
+    });
+    
+    // push item info into receipt table
+    userPurchases.forEach(element => {
+        receiptTable.push([element.productName, `${element.amount} @ $${element.price}`, `$${element.amount * element.price}`]);
+    });
+
+    // space out receipt
+    receiptTable.push(["", "", ""]); receiptTable.push(["", "", ""]);
+    
+    // totals part of receipt
+    const subTotal = userTotals.reduce((a, b) => a + b);
+    receiptTable.push(["", "Sub-total", `$${subTotal.toFixed(2)}`]);
+    receiptTable.push(["", "TAX", `$${(subTotal * 0.0825).toFixed(2)}`]);
+    receiptTable.push(["", "", "-------"]);
+    receiptTable.push(["", "Total", `$${(subTotal * 1.0825).toFixed(2)}`]);
+
+    console.log(receiptTable.toString());
+    console.log(""); console.log(""); console.log("");
+
+    connection.end();
+    process.exit();
 }

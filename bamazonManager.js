@@ -66,6 +66,12 @@ function managerQuestions() {
     })
 }
 
+// function that alerts the user and asks them questions again 
+function userMessageAndQuestions(message, nextFunction) {
+    console.log(`\n${(message)}\n`);
+    nextFunction();
+}
+
 function createInventoryTable(response, fullInventoryBool) {
 
     const table = new Table({
@@ -107,8 +113,7 @@ function displayInventory(nextFunction) {
             // create new table each time because row values will change
             let table = createInventoryTable(response, true);
 
-            console.log(table.toString());
-            nextFunction();
+            userMessageAndQuestions(table.toString(), nextFunction);
         }
     );
 }
@@ -122,14 +127,13 @@ function displayLowInventory() {
         (error, response) => {
             if (error) throw error;
 
-            if (response.length === 0) console.log(chalk.green("\nNo low inventory!\n"));
+            if (response.length === 0) userMessageAndQuestions(chalk.green("No low inventory!"), managerContinue);
             else {
                 // create new table every time because values change
                 let table = createInventoryTable(response, false);
     
-                console.log(table.toString());
+                userMessageAndQuestions(table.toString(), managerContinue);
             }
-            managerContinue();
         }
     );
 }
@@ -142,12 +146,10 @@ function updateStock(itemId, quantity) {
             quantity,
             itemId   
         ],
-        function(error, response) {
+        function(error) {
             if (error) console.log(error);
             
-            console.log("\n Item " + chalk.yellow("#" + itemId) + " quantity changed to " + chalk.yellow(quantity) + "\n");
-            
-            managerContinue();
+            userMessageAndQuestions("Item " + chalk.yellow("#" + itemId) + " quantity changed to " + chalk.yellow(quantity), managerContinue);
         }
     );
 }
@@ -188,11 +190,11 @@ function updateStockQuestions() {
         // if input NaN for either question need to ask them again
         // if id number greater than total number of items in store, ask again
         if (!parseInt(answer.userId) || !parseInt(answer.userAdd)) {
-            console.log(chalk.yellow("\nPlease input a number\n"));
-            updateStockQuestions();
+            userMessageAndQuestions(chalk.yellow("Please input a number"), updateStockQuestions);
+            
         } else if (answer.userId > itemTotal) {
-            console.log(chalk.yellow("\nPlease input valid item number\n"));
-            updateStockQuestions();
+            userMessageAndQuestions(chalk.yellow("Please input valid item number"), updateStockQuestions);
+            
         } else {
             grabCurrentQuantity(answer.userId, parseInt(answer.userAdd));
         }
@@ -250,9 +252,11 @@ function addNewProductQuestions() {
     ])
     .then(answer => {
         // need to validate price and quantity
-        // TODO: validate manager inputs 
         // if all inputs good, run addNewProduct function
-        addNewProduct(answer);
+        if (answer.productName && answer.deptName && answer.userPrice && answer.userQuantity) addNewProduct(answer);
+
+        else addNewProductQuestions();
+
     })
     .catch(error => {
         if (error) {
@@ -270,12 +274,9 @@ function addNewProduct(userInputObj) {
     `,
     function(error, response) {
         if (error) console.log(error);
-        
-        console.log("\n Item " + chalk.yellow(userInputObj.productName) + " added to inventory.\n");
 
-        // display new inventory table seems unnecessary if message displayed to manager above
-        // displayInventory(managerContinue);
-        managerContinue();
+        // display new inventory table seems unnecessary if message displayed to manager 
+        userMessageAndQuestions("Item " + chalk.yellow(userInputObj.productName) + " added to inventory.", managerContinue);
     })
 }
 

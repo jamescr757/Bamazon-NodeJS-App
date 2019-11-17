@@ -42,8 +42,8 @@ VALUES ("Calculator", "Office Supplies", 29.99, 30),
  ("MotoGP 19 (PS4)", "Games", 34.99, 10);
 
 INSERT INTO departments (department_name, overhead_costs)
-VALUES ("Office Supplies", 3000),
- ("Apparel", 5000),
- ("Electronics", 4000),
+VALUES ("Office Supplies", 2000),
+ ("Apparel", 2000),
+ ("Electronics", 2000),
  ("Movies",  2000),
  ("Games", 2000);
