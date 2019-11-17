@@ -179,7 +179,7 @@ function keepShoppingQuestion() {
         } else {
             console.log(chalk.cyan("\n\nThanks for shopping with us! Here's your receipt...\n\n"));
 
-            setTimeout(showUserReceipt, 0.8 * 1000);
+            setTimeout(showUserReceipt, 0.75 * 1000);
         }
     })
     .catch(error => {
@@ -206,7 +206,7 @@ function showUserReceipt() {
     
     // push item info into receipt table
     userPurchases.forEach(element => {
-        receiptTable.push([element.productName, `${element.amount} @ $${element.price}`, `$${element.amount * element.price}`]);
+        receiptTable.push([element.productName, `${element.amount} @ $${element.price}`, `$${(element.amount * element.price).toFixed(2)}`]);
     });
 
     // space out receipt
