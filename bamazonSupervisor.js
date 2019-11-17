@@ -17,9 +17,6 @@ const connection = mysql.createConnection({
     database: "bamazon"
 });
 
-// global number of departments for user validation
-let departmentTotal = 0;
-
 // global product sales array 
 const productSalesArray = [];
 
@@ -56,7 +53,7 @@ function supervisorQuestions() {
 }
 
 // grab product_sales data from products table group by department_name
-// push into product sales array (need array length to equal departmentTotal)
+// push into global product sales array
 // need to nest a function to keep flow order correct
 function grabProductSales(departmentsResponse, nextFunction) {
     connection.query(`
@@ -66,8 +63,6 @@ function grabProductSales(departmentsResponse, nextFunction) {
     `,
     (error, response) => {
         if (error) throw error;
-
-        departmentTotal = response.length;
 
         response.forEach(element => {
             productSalesArray.push(element["SUM(product_sales)"])
@@ -88,8 +83,6 @@ function createDepartmentSalesTable(response) {
         head: [chalk.green('Department ID'), chalk.green('Department Name'), chalk.green('Overhead Costs'), chalk.green("Product Sales"), chalk.green('Total Profit')]
       , colWidths: [15, 25, 20, 20, 20]
     });
-
-    departmentTotal = response.length;
 
     // response is an array of objects
     // for each element need to display keys relevant to supervisor

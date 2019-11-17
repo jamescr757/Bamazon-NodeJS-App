@@ -31,7 +31,6 @@ connection.connect(error => {
     if (error) throw error;
 
     renderTableAndQuestions();
-    // connection.end();
 });
 
 // render all products when run app
@@ -51,11 +50,15 @@ function renderTableAndQuestions() {
             response.forEach(element => {
                 table.push([element.item_id, element.product_name, element.price]);
             });
-            // console.log(response);
-            console.log(table.toString());
-            customerPurchaseQuestions();
+            userMessageAndQuestions(table.toString())
         }
     )
+}
+
+// function that alerts the user and asks them questions again 
+function userMessageAndQuestions(message) {
+    console.log(`\n${(message)}\n`);
+    customerPurchaseQuestions();
 }
 
 // ask customer two questions at load 
@@ -78,16 +81,13 @@ function customerPurchaseQuestions() {
         // if input NaN for either question need to ask them again
         // if id number greater than total number of items in store, ask again
         if (!parseInt(answer.userId) || !parseInt(answer.userQuantity)) {
-            console.log(chalk.yellow("\nPlease input a number\n"));
-            customerPurchaseQuestions();
+            userMessageAndQuestions(chalk.yellow("Please input a number"));
         } else if (answer.userId > itemTotal) {
-            console.log(chalk.yellow("\nPlease input valid item number\n"));
-            customerPurchaseQuestions();
+            userMessageAndQuestions(chalk.yellow("Please input valid item number"));
+        } else {
+            // check database quantity to see if user can purchase desired amount
+            checkDatabaseQuantity(answer.userId, answer.userQuantity);
         }
-
-        // TODO: invalid item number is caught but still runs rest of process
-        // need to first check database quantity of item customer wants to buy 
-        checkDatabaseQuantity(answer.userId, answer.userQuantity);
         
     })
     .catch(error => {
@@ -111,11 +111,9 @@ function checkDatabaseQuantity(itemId, userAmount) {
             const databaseQuantity = response[0].stock_quantity;
             const databaseProductSales = response[0].product_sales;
             const itemPrice = response[0].price;
-            console.log("data type of database product sales returned value", typeof databaseProductSales);
 
             if (userAmount > databaseQuantity) {
-                console.log(chalk.yellow("\nInsufficient quantity. Please purchase less of that product\n"));
-                customerPurchaseQuestions();
+                userMessageAndQuestions(chalk.yellow("Insufficient quantity. Please purchase less of that product"));
             } else {
                 console.log("\nThanks for purchasing " + chalk.yellow(userAmount) + " " + response[0].product_name + "!" + " Here's your receipt...\n");
                 const totalPrice = (itemPrice * userAmount * tax).toFixed(2);
@@ -144,8 +142,9 @@ function checkDatabaseQuantity(itemId, userAmount) {
                             type: "confirm"
                         }]).then(answer => {
                             if (answer.keepShopping) {
-                                console.log(table.toString());
-                                customerPurchaseQuestions();  
+                                // console.log(table.toString());
+                                // customerPurchaseQuestions();  
+                                userMessageAndQuestions(table.toString());
                             } else {
                                 connection.end();
                                 process.exit();
