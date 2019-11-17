@@ -136,9 +136,13 @@ function addNewDepartmentQuestions() {
     .then(answer => {
         // need to validate cost
         // if all inputs good, run addNewDepartment function
-        if (answer.deptName && answer.overheadCost) addNewDepartment(answer);
-
-        else addNewDepartmentQuestions();
+        if (!answer.deptName || !answer.overheadCost) {
+            userMessageAndQuestions(chalk.yellow("Please input valid information"), addNewDepartmentQuestions);
+            
+        } else if (!parseInt(answer.overheadCost)) {
+            userMessageAndQuestions(chalk.yellow("Please input a number for overhead cost"), addNewDepartmentQuestions);
+            
+        } else addNewDepartment(answer);
 
     })
     .catch(error => {

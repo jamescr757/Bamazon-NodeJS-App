@@ -253,9 +253,13 @@ function addNewProductQuestions() {
     .then(answer => {
         // need to validate price and quantity
         // if all inputs good, run addNewProduct function
-        if (answer.productName && answer.deptName && answer.userPrice && answer.userQuantity) addNewProduct(answer);
-
-        else addNewProductQuestions();
+        if (!answer.productName || !answer.deptName || !answer.userPrice || !answer.userQuantity) {
+            userMessageAndQuestions(chalk.yellow("Please input valid information"), addNewProductQuestions);
+            
+        } else if (!parseFloat(answer.userPrice) || !parseInt(answer.userQuantity)) {
+            userMessageAndQuestions(chalk.yellow("Please input a number"), addNewProductQuestions);
+            
+        } else addNewProduct(answer);
 
     })
     .catch(error => {
