@@ -117,7 +117,7 @@ function checkDatabaseQuantity(itemId, userAmount) {
                 userMessageAndQuestions(chalk.yellowBright(`Sorry, ${response[0].product_name} is out of stock.`), keepShoppingQuestion);
 
             } else if (userAmount > response[0].stock_quantity) {
-                userMessageAndQuestions(`Sorry, we only have ${chalk.yellowBright(response[0].stock_quantity)} units in stock. Please purchase less of ${chalk.yellowBright(response[0].product_name)}.`, customerPurchaseQuestions);
+                userMessageAndQuestions(`Sorry, we only have ${chalk.yellowBright(response[0].stock_quantity)} units in stock. Please purchase less of ${chalk.yellowBright(response[0].product_name)}.`, keepShoppingQuestion);
 
             } else {
                 // push user purchase object into userPurchases array for receipt later
@@ -179,7 +179,7 @@ function keepShoppingQuestion() {
         } else {
             console.log(chalk.cyan("\n\nThanks for shopping with us! Here's your receipt...\n\n"));
 
-            setTimeout(showUserReceipt, 0.75 * 1000);
+            setTimeout(showUserReceipt, 0.5 * 1000);
         }
     })
     .catch(error => {
