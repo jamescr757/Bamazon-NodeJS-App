@@ -84,9 +84,9 @@ function customerPurchaseQuestions() {
         // if input NaN for either question need to ask them again
         // if id number greater than total number of items in store, ask again
         if (!parseInt(answer.userId) || !parseInt(answer.userQuantity)) {
-            userMessageAndQuestions(chalk.yellow("Please input a number"), customerPurchaseQuestions);
+            userMessageAndQuestions(chalk.yellowBright("Please input a number"), customerPurchaseQuestions);
         } else if (answer.userId > itemTotal) {
-            userMessageAndQuestions(chalk.yellow("Please input valid item number"), customerPurchaseQuestions);
+            userMessageAndQuestions(chalk.yellowBright("Please input valid item number"), customerPurchaseQuestions);
         } else {
             // check database quantity to see if user can purchase desired amount
             checkDatabaseQuantity(answer.userId, answer.userQuantity);
@@ -114,10 +114,10 @@ function checkDatabaseQuantity(itemId, userAmount) {
             // if database quantity is 0 or less than user purchase, alert and ask question
             // else, let purchase go through and update database
             if (response[0].stock_quantity === 0) {
-                userMessageAndQuestions(chalk.yellow(`Sorry, ${response[0].product_name} is out of stock.`), keepShoppingQuestion);
+                userMessageAndQuestions(chalk.yellowBright(`Sorry, ${response[0].product_name} is out of stock.`), keepShoppingQuestion);
 
             } else if (userAmount > response[0].stock_quantity) {
-                userMessageAndQuestions(`Sorry, we only have ${chalk.yellow(response[0].stock_quantity)} units in stock. Please purchase less of ${chalk.yellow(response[0].product_name)}.`, customerPurchaseQuestions);
+                userMessageAndQuestions(`Sorry, we only have ${chalk.yellowBright(response[0].stock_quantity)} units in stock. Please purchase less of ${chalk.yellowBright(response[0].product_name)}.`, customerPurchaseQuestions);
 
             } else {
                 // push user purchase object into userPurchases array for receipt later
@@ -129,7 +129,7 @@ function checkDatabaseQuantity(itemId, userAmount) {
 
                 userTotals.push(userAmount * response[0].price);
 
-                userMessageAndQuestions("Thanks for purchasing " + chalk.yellow(userAmount) + " " + response[0].product_name + "!", keepShoppingQuestion);
+                userMessageAndQuestions("Thanks for purchasing " + chalk.yellowBright(userAmount) + " " + response[0].product_name + "!", keepShoppingQuestion);
 
                 updateDatabase(response[0], userAmount);
             }

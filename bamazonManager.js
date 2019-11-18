@@ -149,7 +149,7 @@ function updateStock(itemId, quantity) {
         function(error) {
             if (error) console.log(error);
             
-            userMessageAndQuestions("Item " + chalk.yellow("#" + itemId) + " quantity changed to " + chalk.yellow(quantity), managerContinue);
+            userMessageAndQuestions("Item " + chalk.yellowBright("#" + itemId) + " quantity changed to " + chalk.yellowBright(quantity), managerContinue);
         }
     );
 }
@@ -190,10 +190,10 @@ function updateStockQuestions() {
         // if input NaN for either question need to ask them again
         // if id number greater than total number of items in store, ask again
         if (!parseInt(answer.userId) || !parseInt(answer.userAdd)) {
-            userMessageAndQuestions(chalk.yellow("Please input a number"), updateStockQuestions);
+            userMessageAndQuestions(chalk.yellowBright("Please input a number"), updateStockQuestions);
             
         } else if (answer.userId > itemTotal) {
-            userMessageAndQuestions(chalk.yellow("Please input valid item number"), updateStockQuestions);
+            userMessageAndQuestions(chalk.yellowBright("Please input valid item number"), updateStockQuestions);
             
         } else {
             grabCurrentQuantity(answer.userId, parseInt(answer.userAdd));
@@ -254,10 +254,10 @@ function addNewProductQuestions() {
         // need to validate price and quantity
         // if all inputs good, run addNewProduct function
         if (!answer.productName || !answer.deptName || !answer.userPrice || !answer.userQuantity) {
-            userMessageAndQuestions(chalk.yellow("Please input valid information"), addNewProductQuestions);
+            userMessageAndQuestions(chalk.yellowBright("Please input valid information"), addNewProductQuestions);
             
         } else if (!parseFloat(answer.userPrice) || !parseInt(answer.userQuantity)) {
-            userMessageAndQuestions(chalk.yellow("Please input a number"), addNewProductQuestions);
+            userMessageAndQuestions(chalk.yellowBright("Please input a number"), addNewProductQuestions);
             
         } else addNewProduct(answer);
 
@@ -280,7 +280,7 @@ function addNewProduct(userInputObj) {
         if (error) console.log(error);
 
         // display new inventory table seems unnecessary if message displayed to manager 
-        userMessageAndQuestions("Item " + chalk.yellow(userInputObj.productName) + " added to inventory.", managerContinue);
+        userMessageAndQuestions("Item " + chalk.yellowBright(userInputObj.productName) + " added to inventory.", managerContinue);
     })
 }
 

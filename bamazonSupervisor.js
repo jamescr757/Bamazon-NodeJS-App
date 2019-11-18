@@ -17,9 +17,6 @@ const connection = mysql.createConnection({
     database: "bamazon"
 });
 
-// global product sales array 
-const productSalesArray = [];
-
 // prompt supervisor with list of choices
 function supervisorQuestions() {
     inquirer.prompt([
@@ -70,16 +67,18 @@ function grabProductSales(departmentsResponse, nextFunction) {
     (error, response) => {
         if (error) throw error;
 
+        const productSalesArray = [];
+
         response.forEach(element => {
             productSalesArray.push(element["SUM(product_sales)"])
         });
 
-        createDepartmentSalesTable(departmentsResponse, nextFunction);
+        createDepartmentSalesTable(productSalesArray, departmentsResponse, nextFunction);
     }
     );
 }
 
-function createDepartmentSalesTable(response, nextFunction) {
+function createDepartmentSalesTable(productSalesArray, response, nextFunction) {
 
     const table = new Table({
         head: [chalk.green('Department ID'), chalk.green('Department Name'), chalk.green('Overhead Costs'), chalk.green("Product Sales"), chalk.green('Total Profit')]
@@ -137,10 +136,10 @@ function addNewDepartmentQuestions() {
         // need to validate cost
         // if all inputs good, run addNewDepartment function
         if (!answer.deptName || !answer.overheadCost) {
-            userMessageAndQuestions(chalk.yellow("Please input valid information"), addNewDepartmentQuestions);
+            userMessageAndQuestions(chalk.yellowBright("Please input valid information"), addNewDepartmentQuestions);
             
         } else if (!parseInt(answer.overheadCost)) {
-            userMessageAndQuestions(chalk.yellow("Please input a number for overhead cost"), addNewDepartmentQuestions);
+            userMessageAndQuestions(chalk.yellowBright("Please input a number for overhead cost"), addNewDepartmentQuestions);
             
         } else addNewDepartment(answer);
 
@@ -162,7 +161,7 @@ function addNewDepartment(userInputObj) {
     function(error, response) {
         if (error) console.log(error);
         
-        userMessageAndQuestions("Department " + chalk.yellow(userInputObj.deptName) + " added to store.", supervisorContinue)
+        userMessageAndQuestions("Department " + chalk.yellowBright(userInputObj.deptName) + " added to store.", supervisorContinue)
     })
 }
 
