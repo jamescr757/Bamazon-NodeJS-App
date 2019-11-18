@@ -6,7 +6,7 @@ This app resembles a store's server-side data processing. Customer purchases are
 ------------
 
 ### Bamazon Customer Experience: 
-![Bamazon CLI](./images/bamazon-customer.gif)
+[Customer Base Experience](./images/customer-base.mov)
 
 ---------
 
