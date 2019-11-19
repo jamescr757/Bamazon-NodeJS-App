@@ -71,6 +71,7 @@ This app resembles a store's server-side data processing. Customer purchases are
 ## Real-Time Product Sales Numbers: 
 
 ### Manager viewing updated product sales numbers after numerous purchases
+&nbsp;
 
 Simulating numerous customers buying various items
 
