@@ -6,6 +6,8 @@ This app resembles a store's server-side data processing. Customer purchases are
 ------------
 ## Initial Database Configuration 
 
+&nbsp;
+
 ### Products Table 
 
 ![Products Table in Datbase](./images/fresh-products-table.png)
@@ -17,6 +19,8 @@ This app resembles a store's server-side data processing. Customer purchases are
 ---------
 
 ## General Tasks: 
+
+&nbsp;
 
 ### Customer purchasing multiple items
 
@@ -40,6 +44,8 @@ This app resembles a store's server-side data processing. Customer purchases are
 
 ## Adding a New Product: 
 
+&nbsp;
+
 ### Manager adding a new product
 
 ![Bamazon Manager](./images/manager-add-product.gif)
@@ -61,6 +67,8 @@ This app resembles a store's server-side data processing. Customer purchases are
 --------- 
 
 ## Real-Time Product Sales Numbers: 
+
+&nbsp;
 
 ### Manager viewing updated product sales numbers after numerous purchases
 
@@ -98,6 +106,8 @@ Still image of supervisor's departments table in order to verify the numbers
 
 ## Adding a New Department: 
 
+&nbsp;
+
 ### Supervisor adding a new department
 
 ![Bamazon Manager](./images/supervisor-new-dept.gif)
@@ -119,6 +129,8 @@ Still image of supervisor's departments table in order to verify the numbers
 --------- 
 
 ## Catching Invalid Inputs:
+
+&nbsp;
 
 ### Customer inputting invalid information
 
