@@ -19,9 +19,10 @@ This app resembles a store's server-side data processing. Customer purchases are
 
 ---------
 
-## General Tasks: 
-
 &nbsp;
+&nbsp;
+
+## General Tasks: 
 
 ### Customer purchasing multiple items
 
@@ -39,13 +40,12 @@ This app resembles a store's server-side data processing. Customer purchases are
 
 ![Bamazon Manager](./images/manager-low-add.gif)
 
-&nbsp;
-
 --------- 
 
-## Adding a New Product: 
-
 &nbsp;
+&nbsp;
+
+## Adding a New Product: 
 
 ### Manager adding a new product
 
@@ -63,13 +63,12 @@ This app resembles a store's server-side data processing. Customer purchases are
 
 ![Bamazon Manager](./images/manager-updating-new-product.gif)
 
-&nbsp;
-
 --------- 
 
-## Real-Time Product Sales Numbers: 
-
 &nbsp;
+&nbsp;
+
+## Real-Time Product Sales Numbers: 
 
 ### Manager viewing updated product sales numbers after numerous purchases
 
@@ -101,13 +100,12 @@ Still image of supervisor's departments table in order to verify the numbers
 
 ![Bamazon Manager](./images/dept-totals.png)
 
-&nbsp;
-
 --------- 
 
-## Adding a New Department: 
-
 &nbsp;
+&nbsp;
+
+## Adding a New Department: 
 
 ### Supervisor adding a new department
 
@@ -125,13 +123,12 @@ Still image of supervisor's departments table in order to verify the numbers
 
 ![Bamazon Manager](./images/customer-to-supe-flow.gif)
 
-&nbsp;
-
 --------- 
 
-## Catching Invalid Inputs:
-
 &nbsp;
+&nbsp;
+
+## Catching Invalid Inputs:
 
 ### Customer inputting invalid information
 
