@@ -24,19 +24,19 @@ This app resembles a store's server-side data processing. Customer purchases are
 
 ## General Tasks: 
 
-### Customer purchasing multiple items
+- ### Customer purchasing multiple items
 
 ![Customer Shopping](./images/customer-base.gif)
 
 &nbsp;
 
-### Customer purchasing more product than current stock level
+- ### Customer purchasing more product than current stock level
 
 ![Customer Shopping](./images/customer-out.gif)
 
 &nbsp;
 
-### Manager viewing/updating inventory
+- ### Manager viewing/updating inventory
 
 ![Bamazon Manager](./images/manager-low-add.gif)
 
@@ -47,19 +47,19 @@ This app resembles a store's server-side data processing. Customer purchases are
 
 ## Adding a New Product: 
 
-### Manager adding a new product
+- ### Manager adding a new product
 
 ![Bamazon Manager](./images/manager-add-product.gif)
 
 &nbsp;
 
-### Customer purchasing a product created in the app
+- ### Customer purchasing a product created in the app
 
 ![Bamazon Manager](./images/customer-new-product.gif)
 
 &nbsp;
 
-### Manager updating inventory for a product created in the app
+- ### Manager updating inventory for a product created in the app
 
 ![Bamazon Manager](./images/manager-updating-new-product.gif)
 
@@ -70,7 +70,7 @@ This app resembles a store's server-side data processing. Customer purchases are
 
 ## Real-Time Product Sales Numbers: 
 
-### Manager viewing updated product sales numbers after numerous purchases
+- ### Manager viewing updated product sales numbers after numerous purchases
 &nbsp;
 
 Simulating numerous customers buying various items
@@ -87,11 +87,9 @@ Updated manager's view of store inventory after running `node bamazonManager.js`
 
 &nbsp;
 
-### Supervisor now viewing product sales by department
+- ### Supervisor now viewing product sales by department
 
 ![Bamazon Manager](./images/supervisor-base.gif)
-
-&nbsp;
 
 Still image of supervisor's departments table in order to verify the numbers
 
@@ -104,19 +102,19 @@ Still image of supervisor's departments table in order to verify the numbers
 
 ## Adding a New Department: 
 
-### Supervisor adding a new department
+- ### Supervisor adding a new department
 
 ![Bamazon Manager](./images/supervisor-new-dept.gif)
 
 &nbsp;
 
-### Manager adding a product to the department creaated in the app
+- ### Manager adding a product to the department creaated in the app
 
 ![Bamazon Manager](./images/manager-add-product-new-dept.gif)
 
 &nbsp;
 
-### Customer buying the new product and the supervisor viewing the sales numbers in real-time
+- ### Customer buying the new product and the supervisor viewing the sales numbers in real-time
 
 ![Bamazon Manager](./images/customer-to-supe-flow.gif)
 
@@ -127,18 +125,18 @@ Still image of supervisor's departments table in order to verify the numbers
 
 ## Catching Invalid Inputs:
 
-### Customer inputting invalid information
+- ### Customer inputting invalid information
 
 ![Customer Shopping](./images/customer-invalid.gif)
 
 &nbsp;
 
-### Manager inputting invalid information
+- ### Manager inputting invalid information
 
 ![Bamazon Manager](./images/manager-invalid.gif)
 
 &nbsp;
 
-### Supervisor inputting invalid information
+- ### Supervisor inputting invalid information
 
 ![Bamazon Manager](./images/supervisor-invalid.gif)
