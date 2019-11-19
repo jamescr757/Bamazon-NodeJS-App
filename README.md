@@ -74,15 +74,15 @@ This app resembles a store's server-side data processing. Customer purchases are
 
     * Simulating numerous customers buying various items
 
-    ![Customer Shopping Spree](./images/customer-shopping-spree.gif)
+        ![Customer Shopping Spree](./images/customer-shopping-spree.gif)
 
     * Image of the final receipt to verify numbers in manager's inventory table
 
-    ![Shopping Spree Receipt](./images/shopping-spree-receipt.png)
+        ![Shopping Spree Receipt](./images/shopping-spree-receipt.png)
 
     * Updated manager's view of store inventory after running `node bamazonManager.js` (Remember that all of the quantity numbers started at 100)
 
-    ![Manager Store Inventory After Shopping Spree](./images/updated-product-sales.png)
+        ![Manager Store Inventory After Shopping Spree](./images/updated-product-sales.png)
 
 &nbsp;
 
@@ -92,7 +92,7 @@ This app resembles a store's server-side data processing. Customer purchases are
 
     * Image of supervisor's departments table in order to verify the numbers
 
-    ![Supervisor Departments Table](./images/dept-totals.png)
+        ![Supervisor Departments Table](./images/dept-totals.png)
 
 --------- 
 
