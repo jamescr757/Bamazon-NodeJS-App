@@ -76,13 +76,9 @@ Simulating numerous customers buying various items
 
 ![Bamazon Manager](./images/customer-shopping-spree.gif)
 
-&nbsp;
-
 Here's a still image of the final receipt to verify that the numbers check out later
 
 ![Bamazon Manager](./images/shopping-spree-receipt.png)
-
-&nbsp;
 
 Updated manager's view of store inventory after running `node bamazonManager.js` (Remember that all of the quantity numbers started at 100)
 
