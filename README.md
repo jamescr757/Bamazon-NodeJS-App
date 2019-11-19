@@ -72,25 +72,25 @@ This app resembles a store's server-side data processing. Customer purchases are
 
 * ### Manager viewing updated product sales numbers after numerous purchases
 
-- Simulating numerous customers buying various items
+    - Simulating numerous customers buying various items
 
 ![Bamazon Manager](./images/customer-shopping-spree.gif)
 
-- Still image of the final receipt to verify numbers in manager's inventory table
+    - Image of the final receipt to verify numbers in manager's inventory table
 
 ![Bamazon Manager](./images/shopping-spree-receipt.png)
 
-- Updated manager's view of store inventory after running `node bamazonManager.js` (Remember that all of the quantity numbers started at 100)
+    - Updated manager's view of store inventory after running `node bamazonManager.js` (Remember that all of the quantity numbers started at 100)
 
 ![Bamazon Manager](./images/updated-product-sales.png)
 
 &nbsp;
 
-* ### Supervisor now viewing product sales by department
+* ### Supervisor viewing product sales by department
 
 ![Bamazon Manager](./images/supervisor-base.gif)
 
-- Still image of supervisor's departments table in order to verify the numbers
+    - Image of supervisor's departments table in order to verify the numbers
 
 ![Bamazon Manager](./images/dept-totals.png)
 
