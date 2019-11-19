@@ -6,11 +6,11 @@ This app resembles a store's server-side data processing. Customer purchases are
 ------------
 ## Initial Database Configuration 
 
-#### Products Table 
+### Products Table 
 
 ![Products Table in Datbase](./images/fresh-products-table.png)
 
-#### Departments Table 
+### Departments Table 
 
 ![Departments Table in Database](./images/fresh-departments-table.png)
 
@@ -18,88 +18,120 @@ This app resembles a store's server-side data processing. Customer purchases are
 
 ## General Tasks: 
 
-#### Customer purchasing multiple items
+### Customer purchasing multiple items
 
 ![Customer Shopping](./images/customer-base.gif)
 
-#### Customer purchasing more product than current stock level
+&nbsp;
+
+### Customer purchasing more product than current stock level
 
 ![Customer Shopping](./images/customer-out.gif)
 
-#### Manager viewing/updating inventory
+&nbsp;
+
+### Manager viewing/updating inventory
 
 ![Bamazon Manager](./images/manager-low-add.gif)
+
+&nbsp;
 
 --------- 
 
 ## Adding a New Product: 
 
-#### Manager adding a new product
+### Manager adding a new product
 
 ![Bamazon Manager](./images/manager-add-product.gif)
 
-#### Customer purchasing a product created in the app
+&nbsp;
+
+### Customer purchasing a product created in the app
 
 ![Bamazon Manager](./images/customer-new-product.gif)
 
-#### Manager updating inventory for a product created in the app
+&nbsp;
+
+### Manager updating inventory for a product created in the app
 
 ![Bamazon Manager](./images/manager-updating-new-product.gif)
+
+&nbsp;
 
 --------- 
 
 ## Real-Time Product Sales Numbers: 
 
-#### Manager viewing updated product sales numbers after numerous purchases
+### Manager viewing updated product sales numbers after numerous purchases
 
 Simulating numerous customers buying various items
 
 ![Bamazon Manager](./images/customer-shopping-spree.gif)
 
+&nbsp;
+
 Here's a still image of the final receipt to verify that the numbers check out later
 
 ![Bamazon Manager](./images/shopping-spree-receipt.png)
+
+&nbsp;
 
 Updated manager's view of store inventory after running `node bamazonManager.js` (Remember that all of the quantity numbers started at 100)
 
 ![Bamazon Manager](./images/updated-product-sales.png)
 
-#### Supervisor now viewing product sales by department
+&nbsp;
+
+### Supervisor now viewing product sales by department
 
 ![Bamazon Manager](./images/supervisor-base.gif)
+
+&nbsp;
 
 Still image of supervisor's departments table in order to verify the numbers
 
 ![Bamazon Manager](./images/dept-totals.png)
 
+&nbsp;
+
 --------- 
 
 ## Adding a New Department: 
 
-#### Supervisor adding a new department
+### Supervisor adding a new department
 
 ![Bamazon Manager](./images/supervisor-new-dept.gif)
 
-#### Manager adding a product to the department creaated in the app
+&nbsp;
+
+### Manager adding a product to the department creaated in the app
 
 ![Bamazon Manager](./images/manager-add-product-new-dept.gif)
 
-#### Customer buying the new product and the supervisor viewing the sales numbers in real-time
+&nbsp;
+
+### Customer buying the new product and the supervisor viewing the sales numbers in real-time
 
 ![Bamazon Manager](./images/customer-to-supe-flow.gif)
+
+&nbsp;
 
 --------- 
 
 ## Catching Invalid Inputs:
 
-#### Customer inputting invalid information
+### Customer inputting invalid information
 
 ![Customer Shopping](./images/customer-invalid.gif)
 
-#### Manager inputting invalid information
+&nbsp;
+
+### Manager inputting invalid information
 
 ![Bamazon Manager](./images/manager-invalid.gif)
 
-#### Supervisor inputting invalid information
+&nbsp;
+
+### Supervisor inputting invalid information
 
 ![Bamazon Manager](./images/supervisor-invalid.gif)
