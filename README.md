@@ -26,19 +26,19 @@ This app resembles a store's server-side data processing. Customer purchases are
 
 * ### Customer purchasing multiple items
 
-![Customer Shopping](./images/customer-base.gif)
+    ![Customer Shopping](./images/customer-base.gif)
 
 &nbsp;
 
 * ### Customer purchasing more product than current stock level
 
-![Customer Shopping](./images/customer-out.gif)
+    ![Customer Purchasing Low Stock](./images/customer-out.gif)
 
 &nbsp;
 
 * ### Manager viewing/updating inventory
 
-![Bamazon Manager](./images/manager-low-add.gif)
+    ![Manager Viewing Inventory](./images/manager-low-add.gif)
 
 --------- 
 
@@ -49,19 +49,19 @@ This app resembles a store's server-side data processing. Customer purchases are
 
 * ### Manager adding a new product
 
-![Bamazon Manager](./images/manager-add-product.gif)
+    ![Manager Add Product](./images/manager-add-product.gif)
 
 &nbsp;
 
 * ### Customer purchasing a product created in the app
 
-![Bamazon Manager](./images/customer-new-product.gif)
+    ![Customer Purchasing New Product](./images/customer-new-product.gif)
 
 &nbsp;
 
 * ### Manager updating inventory for a product created in the app
 
-![Bamazon Manager](./images/manager-updating-new-product.gif)
+    ![Manager Updating New Product](./images/manager-updating-new-product.gif)
 
 --------- 
 
@@ -74,25 +74,25 @@ This app resembles a store's server-side data processing. Customer purchases are
 
     * Simulating numerous customers buying various items
 
-    ![Bamazon Manager](./images/customer-shopping-spree.gif)
+    ![Customer Shopping Spree](./images/customer-shopping-spree.gif)
 
     * Image of the final receipt to verify numbers in manager's inventory table
 
-    ![Bamazon Manager](./images/shopping-spree-receipt.png)
+    ![Shopping Spree Receipt](./images/shopping-spree-receipt.png)
 
     * Updated manager's view of store inventory after running `node bamazonManager.js` (Remember that all of the quantity numbers started at 100)
 
-    ![Bamazon Manager](./images/updated-product-sales.png)
+    ![Manager Store Inventory After Shopping Spree](./images/updated-product-sales.png)
 
 &nbsp;
 
 * ### Supervisor viewing product sales by department
 
-    ![Bamazon Manager](./images/supervisor-base.gif)
+    ![Supervisor Viewing Departments](./images/supervisor-base.gif)
 
     * Image of supervisor's departments table in order to verify the numbers
 
-    ![Bamazon Manager](./images/dept-totals.png)
+    ![Supervisor Departments Table](./images/dept-totals.png)
 
 --------- 
 
@@ -103,19 +103,19 @@ This app resembles a store's server-side data processing. Customer purchases are
 
 * ### Supervisor adding a new department
 
-![Bamazon Manager](./images/supervisor-new-dept.gif)
+    ![Supervisor Add Department](./images/supervisor-new-dept.gif)
 
 &nbsp;
 
 * ### Manager adding a product to the department creaated in the app
 
-![Bamazon Manager](./images/manager-add-product-new-dept.gif)
+    ![Manager Add Product to New Department](./images/manager-add-product-new-dept.gif)
 
 &nbsp;
 
 * ### Customer buying the new product and the supervisor viewing the sales numbers in real-time
 
-![Bamazon Manager](./images/customer-to-supe-flow.gif)
+    ![Customer Buy Product from New Department](./images/customer-to-supe-flow.gif)
 
 --------- 
 
@@ -126,16 +126,16 @@ This app resembles a store's server-side data processing. Customer purchases are
 
 * ### Customer inputting invalid information
 
-![Customer Shopping](./images/customer-invalid.gif)
+    ![Customer Invalid Inputs](./images/customer-invalid.gif)
 
 &nbsp;
 
 * ### Manager inputting invalid information
 
-![Bamazon Manager](./images/manager-invalid.gif)
+    ![Manager Invalid Inputs](./images/manager-invalid.gif)
 
 &nbsp;
 
 * ### Supervisor inputting invalid information
 
-![Bamazon Manager](./images/supervisor-invalid.gif)
+    ![Supervisor Invalid Inputs](./images/supervisor-invalid.gif)
