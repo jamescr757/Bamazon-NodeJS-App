@@ -3,7 +3,12 @@
 ### What this app does:
 This app resembles a store's server-side data processing. Customer purchases are tracked in a database, so the store's real-time inventory and product sales can be viewed by managers/supervisors. Furthermore, managers can view product inventory, update inventory, and add products. Lastly, supervisors can add new departments and view product sales by department. Below are gifs showing how the app works from the 3 different view points.
 
+&nbsp;
+
 ------------
+
+&nbsp;
+
 ## Initial Database Configuration 
 
 &nbsp;
