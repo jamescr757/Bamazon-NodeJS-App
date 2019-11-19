@@ -107,13 +107,13 @@ This app resembles a store's server-side data processing. Customer purchases are
 
 &nbsp;
 
-* ### Manager adding a product to the department creaated in the app
+* ### Manager adding a product to the new department 
 
     ![Manager Add Product to New Department](./images/manager-add-product-new-dept.gif)
 
 &nbsp;
 
-* ### Customer buying the new product and the supervisor viewing the sales numbers in real-time
+* ### Customer buying the new product followed by supervisor's updated product sales data
 
     ![Customer Buy Product from New Department](./images/customer-to-supe-flow.gif)
 
