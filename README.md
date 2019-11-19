@@ -7,29 +7,97 @@ This app resembles a store's server-side data processing. Customer purchases are
 ## Initial Database Configuration 
 
 #### Products Table 
+
 ![Products Table in Datbase](./images/fresh-products-table.png)
 
 #### Departments Table 
+
 ![Departments Table in Database](./images/fresh-departments-table.png)
 
 ---------
 
-## Customer Experience  
+## General Tasks: 
 
-### General Shopping Experience: 
+#### Customer purchasing multiple items
+
 ![Customer Shopping](./images/customer-base.gif)
 
-### Shopping Experience with Low Stock: 
-![Customer Shopping](./images/customer-low.gif)
+#### Customer purchasing more product than current stock level
 
-### Shopping Experience with Invalid Inputs: 
+![Customer Shopping](./images/customer-out.gif)
+
+#### Manager viewing/updating inventory
+
+![Bamazon Manager](./images/manager-low-add.gif)
+
+--------- 
+
+## Adding a New Product: 
+
+#### Manager adding a new product
+
+![Bamazon Manager](./images/manager-add-product.gif)
+
+#### Customer purchasing an app-created product
+
+![Bamazon Manager](./images/customer-new-product.gif)
+
+#### Manager updating inventory on an app-created product 
+
+![Bamazon Manager](./images/manager-updating-new-product.gif)
+
+--------- 
+
+## Real-Time Product Sales Numbers: 
+
+#### Manager viewing updated product sales numbers after numerous purchases
+Customers buying lots of items
+![Bamazon Manager](./images/customer-shopping-spree.gif)
+
+Here's a still image of the final receipt to verify that the numbers check out later
+
+![Bamazon Manager](./images/shopping-spree-receipt.png)
+
+Updated manager's view of store inventory after running `node bamazonManager.js` (Remember that all of the quantity numbers started at 100)
+
+![Bamazon Manager](./images/updated-product-sales.png)
+
+#### Supervisor now viewing product sales by department
+
+![Bamazon Manager](./images/supervisor-base.gif)
+
+Still image of supervisor's departments table in order to verify the numbers
+
+![Bamazon Manager](./images/dept-totals.png)
+
+--------- 
+
+## Adding a New Department: 
+
+#### Supervisor adding a new department
+
+![Bamazon Manager](./images/supervisor-new-dept.gif)
+
+#### Manager adding a product to the new department
+
+![Bamazon Manager](./images/manager-add-product-new-dept.gif)
+
+#### Customer being able to purchase a new product from a new department
+
+![Bamazon Manager](./images/customer-to-supe-flow.gif)
+
+--------- 
+
+## Catching Invalid Inputs:
+
+#### Customer inputting invalid information
+
 ![Customer Shopping](./images/customer-invalid.gif)
 
-### Bamazon Manager Experience: 
-![Bamazon CLI](./images/bamazon-manager.gif)
+#### Manager inputting invalid information
 
----------
+![Bamazon Manager](./images/manager-invalid.gif)
 
+#### Supervisor inputting invalid information
 
-### Bamazon Supervisor Experience: 
-![Bamazon CLI](./images/bamazon-supervisor.gif)
+![Bamazon Manager](./images/supervisor-invalid.gif)

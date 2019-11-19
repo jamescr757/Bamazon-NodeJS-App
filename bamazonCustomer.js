@@ -177,9 +177,15 @@ function keepShoppingQuestion() {
             userMessageAndQuestions(table.toString(), customerPurchaseQuestions);
         
         } else {
-            console.log(chalk.cyan("\n\nThanks for shopping with us! Here's your receipt...\n\n"));
+            if (userPurchases.length > 0) {
+                console.log(chalk.cyan("\n\nThanks for shopping with us! Here's your receipt...\n\n"));
 
-            setTimeout(showUserReceipt, 0.5 * 1000);
+                setTimeout(showUserReceipt, 0.5 * 1000);
+            } else {
+                connection.end();
+                process.exit();
+            }
+
         }
     })
     .catch(error => {
